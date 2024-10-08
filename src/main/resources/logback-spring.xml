@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="q8.log.level" source="q8.log.level"/>
+    <springProperty scope="context" name="serviceName" source="fabrick.serviceName"/>
+
+    <springProfile name="local">
+        <appender name="consoleAppender"
+                  class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+            <encoder>
+                <Pattern>
+                    %red(%d{ISO8601}) %highlight(%-5level) %green(${serviceName}) [%blue(%X{traceId:-},%X{spanId:-})] %yellow(%C.%M:%L): %msg%n%throwable
+                </Pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+</configuration>
