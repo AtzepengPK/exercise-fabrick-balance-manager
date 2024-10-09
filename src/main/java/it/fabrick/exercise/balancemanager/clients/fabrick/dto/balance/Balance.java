@@ -6,4 +6,4 @@ public record Balance(
 	String currency,
 	String date
 ) {
-};
+}

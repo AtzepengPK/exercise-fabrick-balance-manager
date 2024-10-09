@@ -6,6 +6,7 @@ import it.fabrick.exercise.balancemanager.clients.fabrick.dto.FabrickResponse;
 import it.fabrick.exercise.balancemanager.errors.exceptions.ExceptionCode;
 import it.fabrick.exercise.balancemanager.errors.exceptions.application.TechnicalException;
 import it.fabrick.exercise.balancemanager.errors.exceptions.utils.BaseExceptionFactory;
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class BadRequestHandler implements RestClient.ResponseSpec.ErrorHandler {
 	ExceptionCode exceptionCode;
 
 	@Override
-	public void handle(HttpRequest request, ClientHttpResponse response) throws IOException {
+	public void handle(@Nonnull HttpRequest request, ClientHttpResponse response) throws IOException {
 
 		exceptionCode = switch (response.getStatusCode()) {
 			case HttpStatus.UNAUTHORIZED,
