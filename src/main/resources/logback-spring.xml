@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProperty scope="context" name="q8.log.level" source="q8.log.level"/>
-    <springProperty scope="context" name="serviceName" source="fabrick.serviceName"/>
+    <springProperty scope="context" name="serviceName" source="spring.application.name"/>
+
+
+
+    <appender name="LOCALPATTERN" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <encoder>
+            <Pattern>
+                %red(%d{ISO8601}) %highlight(%-5level) %green(${serviceName}) [%blue(%t)] %yellow(%C{1}): %msg%n%throwable
+            </Pattern>
+        </encoder>
+    </appender>
 
     <springProfile name="local">
-        <appender name="consoleAppender"
-                  class="ch.qos.logback.core.ConsoleAppender">
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-            <encoder>
-                <Pattern>
-                    %red(%d{ISO8601}) %highlight(%-5level) %green(${serviceName}) [%blue(%X{traceId:-},%X{spanId:-})] %yellow(%C.%M:%L): %msg%n%throwable
-                </Pattern>
-            </encoder>
-        </appender>
+        <logger name="it.fabrick" level="DEBUG">
+            <appender-ref ref="LOCALPATTERN"/>
+        </logger>
+    </springProfile>
+    <springProfile name="dev">
+        <logger name="it.fabrick" level="DEBUG">
+            <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+            </appender>
+        </logger>
+    </springProfile>
+    <springProfile name="stg,prod">
+        <logger name="it.fabrick" level="INFO">
+            <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+            </appender>
+        </logger>
     </springProfile>
 </configuration>

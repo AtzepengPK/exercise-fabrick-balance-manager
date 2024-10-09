@@ -14,6 +14,13 @@ java {
 	}
 }
 
+//reference build.gradle in application.properties
+processResources {
+	filesMatching("**/application.properties") {
+		expand(project.properties)
+	}
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -30,26 +37,42 @@ ext {
 }
 
 dependencies {
+	//LOMBOK
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	//LOGBACK
+	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
+	testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.8'
+	implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.5.8'
+
+	//SPRING
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 
+
+	//HTTP
+	implementation 'org.apache.httpcomponents.client5:httpclient5'
+
+	//SWAGGER
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+	//TEST
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
-
+	testImplementation 'com.tngtech.archunit:archunit:1.3.0'
+	testImplementation 'com.tngtech.archunit:archunit-junit5:1.3.0'
+	testImplementation 'com.maciejwalkowiak.spring:wiremock-spring-boot:2.1.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
 }
 
 dependencyManagement {
