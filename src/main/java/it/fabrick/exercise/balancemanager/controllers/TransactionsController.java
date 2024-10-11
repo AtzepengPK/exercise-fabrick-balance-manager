@@ -7,8 +7,11 @@ import it.fabrick.exercise.balancemanager.services.TransactionService;
 import it.fabrick.exercise.balancemanager.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,29 +25,39 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/transactions")
-@Tag(name = "Balance API", description = "Balance API")
+@RequestMapping(value = Constants.Routes.VERSION1, produces = MediaTypes.HAL_JSON_VALUE)
+@Tag(name = "Transactions API", description = "Transactions API")
+@ExposesResourceFor(DtoTransaction.class)
 public class TransactionsController {
 	private final TransactionService transactionService;
 
-	@GetMapping(value = "/{accountId}", produces = {"application/hal+json"})
+	@GetMapping(value = Constants.Routes.Transactions.ROOT)
 	public DtoResponse<CollectionModel<DtoTransaction>> transactions(@PathVariable String accountId,
-																	 @RequestParam Date fromAccountingDate,
-																	 @RequestParam Date toAccountingDate) {
+																	 @RequestParam @DateTimeFormat(pattern = Constants.FABRICK_DATE_FORMAT) Date fromAccountingDate,
+																	 @RequestParam @DateTimeFormat(pattern = Constants.FABRICK_DATE_FORMAT) Date toAccountingDate) {
 		List<DtoTransaction> transactionList = transactionService.getTransactions(accountId, fromAccountingDate, toAccountingDate);
 
-		transactionList.parallelStream()
-			.forEach(t -> {
-				Link selfLink = Link.of("%s%s%s%s".formatted("/", Constants.DaoRoutes.TRANSACTIONS, "/", t.getTransactionId()));
-				t.add(selfLink);
-			});
+		//HAL
+		transactionList.forEach((t) -> {
+			t.add(linkTo(methodOn(TransactionsController.class).transaction(accountId, Long.valueOf(t.getTransactionId()))).withSelfRel());
+		});
 
-		Link link = linkTo(methodOn(TransactionsController.class)
+		Link selfLink = linkTo(methodOn(TransactionsController.class)
 			.transactions(accountId, fromAccountingDate, toAccountingDate)).withSelfRel();
+		Link balanceLink = linkTo(methodOn(BalanceController.class).balance(accountId)).withRel("balance");
 
-		CollectionModel<DtoTransaction> result = CollectionModel.of(transactionList, link);
-
+		CollectionModel<DtoTransaction> result = CollectionModel.of(transactionList, selfLink, balanceLink);
 		return DtoResponse.ok(result);
+	}
 
+	@GetMapping(value = Constants.Routes.Transactions.ROOT + Constants.Routes.Transactions.GET)
+	public DtoResponse<DtoTransaction> transaction(@PathVariable String accountId, @PathVariable Long transactionId) {
+		DtoTransaction transaction = transactionService.getTransactionById(accountId, transactionId);
+
+		//HAL
+		Link selfLink = linkTo(methodOn(TransactionsController.class).transaction(accountId, transactionId)).withSelfRel();
+		transaction.add(selfLink);
+
+		return DtoResponse.ok(transaction);
 	}
 }

@@ -6,6 +6,7 @@ import it.fabrick.exercise.balancemanager.clients.fabrick.dto.transaction.Transa
 import it.fabrick.exercise.balancemanager.clients.fabrick.dto.transaction.TransactionListFabrick;
 import it.fabrick.exercise.balancemanager.dao.transactions.TransactionsDao;
 import it.fabrick.exercise.balancemanager.dto.transactions.DtoTransaction;
+import it.fabrick.exercise.balancemanager.errors.exceptions.input.NotFoundException;
 import it.fabrick.exercise.balancemanager.utils.Constants;
 import it.fabrick.exercise.balancemanager.utils.mappers.TransactionsMapper;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,12 @@ public class TransactionService {
 				result.add(TransactionsMapper.INSTANCE.recordToDto(t));
 			});
 		return result;
+	}
+
+	public DtoTransaction getTransactionById(String accountId, Long transactionId) {
+		return TransactionsMapper.INSTANCE.entityToDto(
+			transactionsDao.findById(transactionId).orElseThrow(
+				() -> new NotFoundException("No transaction with id: %s".formatted(transactionId))
+			));
 	}
 }

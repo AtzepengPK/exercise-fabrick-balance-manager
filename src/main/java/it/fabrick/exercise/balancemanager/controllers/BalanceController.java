@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import it.fabrick.exercise.balancemanager.clients.fabrick.dto.balance.Balance;
 import it.fabrick.exercise.balancemanager.dto.DtoResponse;
 import it.fabrick.exercise.balancemanager.services.BalanceService;
+import it.fabrick.exercise.balancemanager.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/balance")
+@RequestMapping(Constants.Routes.VERSION1)
 @Tag(name = "Balance API", description = "Balance API")
 public class BalanceController {
 	private final BalanceService balanceService;
 
-	@GetMapping("/{accountId}")
+	@GetMapping(Constants.Routes.Balance.ROOT)
 	public DtoResponse<Balance> balance(@PathVariable String accountId) {
 		return DtoResponse.ok(balanceService.getBalance(accountId));
 	}

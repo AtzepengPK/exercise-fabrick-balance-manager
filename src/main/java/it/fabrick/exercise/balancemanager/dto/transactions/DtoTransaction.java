@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import it.fabrick.exercise.balancemanager.utils.Constants;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Relation(collectionRelation = "transactions")
 public class DtoTransaction extends RepresentationModel<DtoTransaction> {
 	private String transactionId;
 	private String operationId;

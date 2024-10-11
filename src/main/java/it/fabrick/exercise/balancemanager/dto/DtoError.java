@@ -1,5 +1,6 @@
 package it.fabrick.exercise.balancemanager.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseException;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseRuntimeException;
 import it.fabrick.exercise.balancemanager.errors.exceptions.ExceptionCode;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonInclude
 public class DtoError {
 	private static final BaseExceptionFactory baseExceptionFactory = BaseExceptionFactory.getInstance();
 	private String title;

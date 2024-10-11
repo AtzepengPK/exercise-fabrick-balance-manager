@@ -1,19 +1,20 @@
 package it.fabrick.exercise.balancemanager.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseException;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseRuntimeException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoResponse<T> {
+@JsonInclude
+public class DtoResponse<T> extends RepresentationModel<DtoResponse<T>> {
 	@Builder.Default
 	private boolean success = true;
 	@Builder.Default

@@ -5,9 +5,9 @@ import it.fabrick.exercise.balancemanager.dto.DtoError;
 import it.fabrick.exercise.balancemanager.dto.DtoResponse;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseException;
 import it.fabrick.exercise.balancemanager.errors.exceptions.BaseRuntimeException;
+import it.fabrick.exercise.balancemanager.errors.exceptions.ExceptionCode;
 import jakarta.annotation.Priority;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +21,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(CallNotPermittedException.class)
 	protected ResponseEntity<Object> handleCallNotPermittedException(CallNotPermittedException ex) {
 		logException(ex);
-		DtoResponse<Void> response = DtoResponse.ko(ex.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+		
+		DtoResponse<Void> response = DtoResponse.ko(DtoError.builder()
+			.code(ExceptionCode.UNAVAILABLE).title("Service Unavailable")
+			.description("Dependent service unavailable")
+			.build());
 		return ResponseEntity.status(response.getHttpStatus()).body(response);
 	}
 

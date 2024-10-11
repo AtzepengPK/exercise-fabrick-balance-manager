@@ -27,11 +27,11 @@ public class BadRequestHandler implements RestClient.ResponseSpec.ErrorHandler {
 
 		exceptionCode = switch (response.getStatusCode()) {
 			case HttpStatus.UNAUTHORIZED,
-				 HttpStatus.FORBIDDEN,
 				 HttpStatus.METHOD_NOT_ALLOWED,
 				 HttpStatus.UNSUPPORTED_MEDIA_TYPE -> ExceptionCode.DEVELOPER;
 			case HttpStatus.TOO_MANY_REQUESTS -> ExceptionCode.UNAVAILABLE;
 			default -> ExceptionCode.WRONG_INPUT;
+
 		};
 
 		Optional<FabrickResponse> body;

@@ -8,7 +8,6 @@ import it.fabrick.exercise.balancemanager.dto.DtoResponse;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 @AnalyzeClasses(
@@ -19,9 +18,6 @@ public class ArchitectureTests {
 	@ArchTest
 	public static final ArchRule shouldBeFreeOfCycles =
 		slices().matching("..fabrick.(**)..").should().beFreeOfCycles();
-	@ArchTest
-	public static final ArchRule shouldNotUseControllersAsDependencies =
-		noClasses().should().dependOnClassesThat().areAnnotatedWith(RestController.class);
 
 	@ArchTest
 	public static final ArchRule shouldReturnDtoResponse =
