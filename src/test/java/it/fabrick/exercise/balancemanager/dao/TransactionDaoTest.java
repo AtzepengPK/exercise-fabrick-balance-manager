@@ -1,4 +1,4 @@
-package it.fabrick.exercise.balancemanager.transactions;
+package it.fabrick.exercise.balancemanager.dao;
 
 import it.fabrick.exercise.balancemanager.dao.transactions.TransactionEntity;
 import it.fabrick.exercise.balancemanager.dao.transactions.TransactionsDao;

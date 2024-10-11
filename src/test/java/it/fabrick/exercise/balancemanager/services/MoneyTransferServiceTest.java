@@ -1,11 +1,11 @@
-package it.fabrick.exercise.balancemanager;
+package it.fabrick.exercise.balancemanager.services;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import it.fabrick.exercise.balancemanager.clients.fabrick.FabrickClient;
 import it.fabrick.exercise.balancemanager.clients.fabrick.dto.FabrickResponse;
 import it.fabrick.exercise.balancemanager.clients.fabrick.dto.moneytransfer.request.MoneyTransferRequest;
 import it.fabrick.exercise.balancemanager.clients.fabrick.dto.moneytransfer.response.MoneyTransferResponse;
-import it.fabrick.exercise.balancemanager.services.MoneyTransferService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

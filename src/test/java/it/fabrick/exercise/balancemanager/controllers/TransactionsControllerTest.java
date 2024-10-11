@@ -1,4 +1,4 @@
-package it.fabrick.exercise.balancemanager.transactions;
+package it.fabrick.exercise.balancemanager.controllers;
 
 import it.fabrick.exercise.balancemanager.dto.transactions.DtoTransaction;
 import it.fabrick.exercise.balancemanager.services.TransactionService;
