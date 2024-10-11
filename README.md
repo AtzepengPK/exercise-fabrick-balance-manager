@@ -5,7 +5,7 @@
 ### Exercise
 
 ```
-curl --location 'localhost:8080/api/v1/14537780/transactions?fromAccountingDate=01%2F01%2F2018&toAccountingDate=01%2F12%2F2018'
+curl --location 'localhost:8080/api/v1/14537780/transactions?fromAccountingDate=2018-01-01&toAccountingDate=2018-12-01'
 ```
 
 get by id:
@@ -17,9 +17,7 @@ curl --location 'localhost:8080/api/v1/14537780/transactions/1210436970002'
 ### Sandbox
 
 ```
-curl --location 'https://sandbox.platfr.io/api/gbs/banking/v4.0/accounts/14537780/transactions?fromAccountingDate=2018-01-01&toAccountingDate=2018-01-12' \
---header 'Auth-Schema: S2S' \
---header 'Api-Key: FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP'
+TODO
 ```
 
 ## BALANCE
@@ -55,9 +53,7 @@ curl --location --request POST 'localhost:8080/api/v1/14537780/money-transfer?mo
 ### Sandbox
 
 ```
-curl --location 'https://sandbox.platfr.io/api/gbs/banking/v4.0/accounts/14537780/transactions?fromAccountingDate=2018-01-01&toAccountingDate=2018-01-12' \
---header 'Auth-Schema: S2S' \
---header 'Api-Key: FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP'
+TODO
 ```
 
 # DB
