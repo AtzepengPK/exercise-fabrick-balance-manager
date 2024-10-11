@@ -1,7 +1,7 @@
 package it.fabrick.exercise.balancemanager.controllers;
 
 
-import it.fabrick.exercise.balancemanager.clients.fabrick.dto.balance.Balance;
+import it.fabrick.exercise.balancemanager.dto.balance.DtoBalance;
 import it.fabrick.exercise.balancemanager.services.BalanceService;
 import it.fabrick.exercise.balancemanager.utils.Constants;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,11 @@ public class BalanceControllerTest {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.FABRICK_DATE_FORMAT);
 		DateTimeFormatter.ofPattern(Constants.FABRICK_DATE_FORMAT);
 
-
-		Balance balance = new Balance(123.123, 234.234, "EUR", new Date());
+		DtoBalance balance = DtoBalance.builder()
+			.availableBalance(123.123)
+			.balance(234.234)
+			.currency("EUR")
+			.date(new Date()).build();
 
 		when(balanceService.getBalance(anyString())).thenReturn(balance);
 
