@@ -12,18 +12,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BalanceService {
 
-	//	private final CircuitBreakerFactory circuitBreakerFactory;
 	private final @Qualifier(Constants.Clients.FABRICK) FabrickClient fabrickClient;
 
 	public Balance getBalance(String accountId) {
 		FabrickResponse<Balance> balance = fabrickClient.getBalance(accountId);
-
 		return balance.getPayload();
-
-
-//		CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
-//		return circuitBreaker.run(() -> fabrickClient.getBalance("1234567890"), (t) -> {
-//			throw new ApplicationException(t);
-//		});
 	}
 }

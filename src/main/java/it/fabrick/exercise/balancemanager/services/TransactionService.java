@@ -11,6 +11,7 @@ import it.fabrick.exercise.balancemanager.utils.Constants;
 import it.fabrick.exercise.balancemanager.utils.mappers.TransactionsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -25,6 +26,7 @@ public class TransactionService {
 	private final @Qualifier(Constants.Clients.FABRICK) FabrickClient fabrickClient;
 	private final TransactionsDao transactionsDao;
 
+	@Cacheable("transactions")
 	public List<DtoTransaction> getTransactions(String accountId, Date fromAccountingDate, Date toAccountingDate) {
 		DateFormat df = new SimpleDateFormat(Constants.FABRICK_DATE_FORMAT);
 		FabrickResponse<TransactionListFabrick> response = fabrickClient.getTransactions(accountId, df.format(fromAccountingDate), df.format(toAccountingDate));

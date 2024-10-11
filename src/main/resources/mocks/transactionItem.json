@@ -1,0 +1,13 @@
+{
+	"transactionId": "1254186070002",
+	"operationId": "18000106578715",
+	"accountingDate": "2018-08-22",
+	"valueDate": "2018-08-22",
+	"amount": -0.01,
+	"currency": "EUR",
+	"description": "GC TERRIBILE LUCA         DATA ORDINE 22082018 TEST API",
+	"type": {
+		"enumeration": "GBS_TRANSACTION_TYPE",
+		"value": "GBS_ACCOUNT_TRANSACTION_TYPE_0034"
+	}
+}

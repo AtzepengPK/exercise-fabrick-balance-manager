@@ -39,7 +39,7 @@ public class TransactionsController {
 
 		//HAL
 		transactionList.forEach((t) -> {
-			t.add(linkTo(methodOn(TransactionsController.class).transaction(accountId, Long.valueOf(t.getTransactionId()))).withSelfRel());
+			t.addIf(!t.hasLink("self"), () -> linkTo(methodOn(TransactionsController.class).transaction(accountId, Long.valueOf(t.getTransactionId()))).withSelfRel());
 		});
 
 		Link selfLink = linkTo(methodOn(TransactionsController.class)
@@ -56,7 +56,9 @@ public class TransactionsController {
 
 		//HAL
 		Link selfLink = linkTo(methodOn(TransactionsController.class).transaction(accountId, transactionId)).withSelfRel();
-		transaction.add(selfLink);
+		Link balanceLink = linkTo(methodOn(BalanceController.class).balance(accountId)).withRel("balance");
+
+		transaction.add(selfLink, balanceLink);
 
 		return DtoResponse.ok(transaction);
 	}
